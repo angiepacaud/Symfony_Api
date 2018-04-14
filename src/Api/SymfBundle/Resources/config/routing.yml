@@ -1,0 +1,3 @@
+api_symf_homepage:
+    path:     /
+    defaults: { _controller: ApiSymfBundle:Default:index }

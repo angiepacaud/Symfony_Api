@@ -35,6 +35,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    paths:
+        "%kernel.root_dir%/../src/Api/SymfBundle/Resources/views/": ApiSymfBundle
 
 # Doctrine Configuration
 doctrine:
