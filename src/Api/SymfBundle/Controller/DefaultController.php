@@ -7,6 +7,7 @@ use Api\SymfBundle\Entity\Events;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -38,17 +39,28 @@ class DefaultController extends Controller
      * @Rest\View(StatusCode = 201)
      * @ParamConverter("events", converter="fos_rest.request_body")
      */
-    public function createAction(Events $events)
+    public function createAction(Request $request)
     {
-        $data = $this->get('jms_serializer')->deserialize($request->getContent(), 'array', 'json');
-        $events = new Events;
-        $form = $this->get('form.factory')->create(EventsType::class, $events);
-        $form->submit($data);
-        $em = $this->getDoctrine()->getManager();
+        $event =new events();
+        $events->setName($request->get('name'))
+            ->setReferrer($request->get('referrer'))
+            ->setCreatedat($request->get('createdat'));
+        $em = $this->get('doctrine.orm.entity_manager');
         $em->persist($events);
         $em->flush();
 
-        return $this->view($events, Response::HTTP_CREATED, ['Location' => $this->generateUrl('events_list', ['id' => $events->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
+        return $events;
+
+
+        // $data = $this->get('jms_serializer')->deserialize($request->getContent(), 'array', 'json');
+        // $events = new Events;
+        // $form = $this->get('form.factory')->create(EventsType::class, $events);
+        // $form->submit($data);
+        // $em = $this->getDoctrine()->getManager();
+        // $em->persist($events);
+        // $em->flush();
+
+        // return $this->view($events, Response::HTTP_CREATED, ['Location' => $this->generateUrl('events_list', ['id' => $events->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
 
         // $data = $request->getContent();
         // $events = $this->get('jms_serializer')->deserialize($data, 'Api\SymfBundle\Entity\Events', 'json');
@@ -108,17 +120,15 @@ class DefaultController extends Controller
     public function dashboardAction()
     {
         //$events = $this->getDoctrine()->getRepository('ApiSymfBundle:Events')->findAll();
-
         //$data = $this->get('jms_serializer')->serialize($events, 'json');
-
        // $response = new Response($data);
-
         //$response->headers->set('Content-Type', 'application/json');
+        //return $response;
 
-         //return $response;
-return $this->createQueryBuilder('a')
- ->select('COUNT(a)')
- ->getQuery()
- ->getSingleScalarResult();
+        // $events = $this->getDoctrine()->getRepository('ApiSymfBundle:Events');
+        // $events->select('count(events.id)');
+        // $events->from('ApiSymfBundle:Events', 'events');
+
+        // $count = $qb->getQuery()->getSingleScalarResult();
     }
 }
