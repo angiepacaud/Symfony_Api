@@ -1,3 +1,19 @@
 api_symf_homepage:
     path:     /
     defaults: { _controller: ApiSymfBundle:Default:index }
+
+api_symf_list:
+    path:     /api/events
+    defaults: { _controller: ApiSymfBundle:Default:list }
+
+api_symf_add:
+    path:     /api/events
+    defaults: { _controller: ApiSymfBundle:Default:create }
+
+api_symf_view:
+    path:     /api/events/{id}
+    defaults: { _controller: ApiSymfBundle:Default:view }
+
+api_symf_dashboard:
+    path:     /api/dashboard
+    defaults: { _controller: ApiSymfBundle:Default:dashboard }
