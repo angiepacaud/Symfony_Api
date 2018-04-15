@@ -51,7 +51,7 @@ class DefaultController extends Controller
     public function listAction()
     {
 
-        $events = $this->getDoctrine()->getRepository('Api\SymfBundle\Entity:Events')->findAll();
+        $events = $this->getDoctrine()->getRepository('ApiSymfBundle:Events')->findAll();
 
         $data = $this->get('jms_serializer')->serialize($events, 'json');
 
