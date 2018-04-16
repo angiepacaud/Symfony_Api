@@ -42,16 +42,7 @@ class DefaultController extends Controller
      */
     public function createAction(Events $events)
     {
-        // $event =new events();
-        // $events->setName($request->get('name'))
-        //     ->setReferrer($request->get('referrer'))
-        //     ->setCreatedat($request->get('createdat'));
-        // $em = $this->get('doctrine.orm.entity_manager');
-        // $em->persist($events);
-        // $em->flush();
-        // return $events;
-
-
+        
         $data = $this->get('jms_serializer')->deserialize($request->getContent(), 'array', 'json');
         $events = new Events;
         $form = $this->get('form.factory')->create(EventsType::class, $events);
@@ -60,7 +51,7 @@ class DefaultController extends Controller
         $em->persist($events);
         $em->flush();
 
-      //  return $this->view($events, Response::HTTP_CREATED, ['Location' => $this->generateUrl('events_list', ['id' => $events->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
+        return $this->view($events, Response::HTTP_CREATED, ['Location' => $this->generateUrl('events_list', ['id' => $events->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
 
         // $data = $request->getContent();
         // $events = $this->get('jms_serializer')->deserialize($data, 'Api\SymfBundle\Entity\Events', 'json');
@@ -68,7 +59,7 @@ class DefaultController extends Controller
         // $em->persist($events);
         // $em->flush();
 
-         return new Response('', Response::HTTP_CREATED);
+        // return new Response('', Response::HTTP_CREATED);
     }
 
     
@@ -92,21 +83,20 @@ class DefaultController extends Controller
     }
 
     /**
-    * @Route("api/dashboard", name="events_dashboard", methods={"GET"})
+    * @Route("api/dashboard", name="events_dashboard")
     * 
     */
     public function dashboardAction()
     {
-        //$events = $this->getDoctrine()->getRepository('ApiSymfBundle:Events')->findAll();
-        //$data = $this->get('jms_serializer')->serialize($events, 'json');
-       // $response = new Response($data);
-        //$response->headers->set('Content-Type', 'application/json');
-        //return $response;
+        
 
-        // $events = $this->getDoctrine()->getRepository('ApiSymfBundle:Events');
-        // $events->select('count(events.id)');
-        // $events->from('ApiSymfBundle:Events', 'events');
-
-        // $count = $qb->getQuery()->getSingleScalarResult();
+//         $em = $this->getDoctrine()->getManager();
+//         $eventsRepo = $em->getRepository('ApiSymfBundle:Events');
+//         $count = $eventsRepo->countByName();
+//         return $this->render(
+//     'ApiSymfBundle:Events:index.html.twig',
+//     array('count' => $count)
+// );
+        
     }
 }

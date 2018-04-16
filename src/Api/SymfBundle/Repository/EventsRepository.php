@@ -10,4 +10,15 @@ namespace Api\SymfBundle\Repository;
  */
 class EventsRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function countByName() {
+ 
+        return $this->createQueryBuilder('e')
+ 
+                        ->select('COUNT(e)')
+ 
+                        ->getQuery()
+ 
+                        ->getSingleScalarResult();
+ 
+    }
 }

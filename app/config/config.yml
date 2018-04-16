@@ -80,3 +80,20 @@ fos_rest:
         formats: { json: true, xml: false, rss: false }
     serializer:
         serialize_null: true
+
+# fos_elastica:
+#     clients:
+#         default: {host: localhost,  port: null }
+#     serializer:
+#         callback_class: FOS\ElasticaBundle\Serializer\Callback
+#         serializer: serializer
+#     indexes:
+#             client: default
+#             types:
+#                 Events:
+#                     mappings: ~
+#                     persistence:
+#                         driver: orm 
+#                         model:  Api\SymfBundle\Entity\Events
+#                         provider: ~
+#                 
