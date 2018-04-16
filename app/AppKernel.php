@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Api\SymfBundle\ApiSymfBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new FOS\ElasticaBundle\FOSElasticaBundle();
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

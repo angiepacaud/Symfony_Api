@@ -4,6 +4,7 @@ namespace Api\SymfBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Api\SymfBundle\Entity\Events;
+use Api\SymfBundle\Form\EventsType;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,7 @@ class DefaultController extends Controller
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
-        // return $this->render('@ApiSymfBundle/Default/index.html.twig');
+        
     }
 
     /**
@@ -39,28 +40,27 @@ class DefaultController extends Controller
      * @Rest\View(StatusCode = 201)
      * @ParamConverter("events", converter="fos_rest.request_body")
      */
-    public function createAction(Request $request)
+    public function createAction(Events $events)
     {
-        $event =new events();
-        $events->setName($request->get('name'))
-            ->setReferrer($request->get('referrer'))
-            ->setCreatedat($request->get('createdat'));
-        $em = $this->get('doctrine.orm.entity_manager');
+        // $event =new events();
+        // $events->setName($request->get('name'))
+        //     ->setReferrer($request->get('referrer'))
+        //     ->setCreatedat($request->get('createdat'));
+        // $em = $this->get('doctrine.orm.entity_manager');
+        // $em->persist($events);
+        // $em->flush();
+        // return $events;
+
+
+        $data = $this->get('jms_serializer')->deserialize($request->getContent(), 'array', 'json');
+        $events = new Events;
+        $form = $this->get('form.factory')->create(EventsType::class, $events);
+        $form->submit($data);
+        $em = $this->getDoctrine()->getManager();
         $em->persist($events);
         $em->flush();
 
-        return $events;
-
-
-        // $data = $this->get('jms_serializer')->deserialize($request->getContent(), 'array', 'json');
-        // $events = new Events;
-        // $form = $this->get('form.factory')->create(EventsType::class, $events);
-        // $form->submit($data);
-        // $em = $this->getDoctrine()->getManager();
-        // $em->persist($events);
-        // $em->flush();
-
-        // return $this->view($events, Response::HTTP_CREATED, ['Location' => $this->generateUrl('events_list', ['id' => $events->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
+      //  return $this->view($events, Response::HTTP_CREATED, ['Location' => $this->generateUrl('events_list', ['id' => $events->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
 
         // $data = $request->getContent();
         // $events = $this->get('jms_serializer')->deserialize($data, 'Api\SymfBundle\Entity\Events', 'json');
@@ -68,32 +68,10 @@ class DefaultController extends Controller
         // $em->persist($events);
         // $em->flush();
 
-        // return new Response('', Response::HTTP_CREATED);
+         return new Response('', Response::HTTP_CREATED);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-
-        $builder
-            ->add('name')
-
-            ->add('referrer')
-
-            ->add('createdad');
-
-    }
-
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-
-        $resolver->setDefaults(array(
-
-            'data_class' => 'Api\SymfBundle\Entity\Events'
-
-        ));
-
-    }
+    
      /**
      * @Route("api/events", name="events_list", methods={"GET"})
      * 
