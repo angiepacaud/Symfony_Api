@@ -88,14 +88,27 @@ class DefaultController extends Controller
     */
     public function dashboardAction()
     {
-        
+        $em = $this->getDoctrine()->getManager();
+$eventsRepo = $em->getRepository('ApiSymfBundle:Events');
+$name = $eventsRepo->countByName();
+ return $this->render('@ApiSymfBundle/Events/index.html.twig', array(
+      'name'     => $name
+    ));
 
-//         $em = $this->getDoctrine()->getManager();
-//         $eventsRepo = $em->getRepository('ApiSymfBundle:Events');
-//         $count = $eventsRepo->countByName();
-//         return $this->render(
-//     'ApiSymfBundle:Events:index.html.twig',
-//     array('count' => $count)
+//         $repository = $this
+
+//     ->getDoctrine()
+
+//     ->getManager()
+
+//     ->getRepository('ApiSymfBundle:Events')
+
+//   ;
+
+//   $countname = $repository->countByName();
+//   return $this->render(
+//     '@ApiSymfBundle/Events/index.html.twig',
+//     array('name' => $countname)
 // );
         
     }

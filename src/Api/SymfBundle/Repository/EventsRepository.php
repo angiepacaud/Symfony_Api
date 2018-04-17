@@ -2,6 +2,8 @@
 
 namespace Api\SymfBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
+
 /**
  * EventsRepository
  *
@@ -12,13 +14,33 @@ class EventsRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function countByName() {
  
-        return $this->createQueryBuilder('e')
+ return $this->createQueryBuilder('e')
  
                         ->select('COUNT(e)')
+
+                        ->groupBy('e.name')
  
                         ->getQuery()
  
-                        ->getSingleScalarResult();
+                        ->getResult();
+ 
+        //  $em = $this->getDoctrine()->getManager();
+        //  $query = $em->createQuery(
+        // "SELECT Name, COUNT(*) FROM ApiSymfBundle:Events GROUP BY Name"
+        // );
+        //  $events = $query->getResult();
+
+// $qb = $this->createQueryBuilder('e')
+// 				   ->join('e.name', 'n')
+// 				   ->select('COUNT(n)') 
+// 				   ->groupBy('e.id');
+//  return $this
+
+// ->createQueryBuilder('e')
+// ->getQuery()
+// ->getResult();
+
+		
  
     }
 }
