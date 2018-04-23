@@ -95,7 +95,7 @@ $name = $eventsRepo->countByName();
       'name'     => $name
     ));
 
-//         $repository = $this
+//     $repository = $this
 
 //     ->getDoctrine()
 
